@@ -1,12 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GRAB</title>
+    <style>
+        body{
+            background-color: #01AA4F;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+        }
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            background-color: white;
+            color: black    ;
+        }
+        #hoadon{
+            display: none;
+            width: 70%;
+            
+        }
+        #txt_x{
+            margin:10px 0 10px 50px;
+        }
+        #txt_y,#btn1,#btn2{
+            margin-bottom: 10px;
+        }
+        #btn1,#btn2{
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bolder;
+        }
+        
+    </style>
 </head>
+
 <body>
     
+
+
+
+    <h1>Tính Tiền Grab</h1>
+    <img src="./logo.png" alt="" style="position: absolute;left: 45%;">
+
+    <h3>Chọn Dịch Vụ Bạn Sử Dụng</h3>
+    <input type="radio" value="Car" name="gender" /> GrabCar <br />
+    <input type="radio" value="SUV" name="gender" /> GrabSUV <br />
+    <input type="radio" value="Black" name="gender" /> GrabBlack <br />
+    Số KM  = <input type="number" min="0" step="1" id="txt_x" /> <br>
+    Thời Gian Chờ = <input type="number" min="0" step="1" id="txt_y" /> <br>
+
+    <!-- <input type="button" value="Tính" /><br> -->
+    <button  id="btn1">Tính Tổng Tiền Đi Được :</button>    
+    <span id="kq" style="margin-left: 15px; font-weight: bolder; margin-right: 10px;" ></span><span>VND</span>
+    <br>
+    <button id="btn2">In Hóa Đơn</button>
+
+    
+    
+
+
+
+
+    <!-- TABLE -->
+    <table id="hoadon"  >
+        <tr>
+            <th colspan="4">Chi Tiết Hóa Đơn</th>
+        </tr>
+        <tr>
+            <td>Chi Tiết</td>
+            <td>Sử Dụng</td>
+            <td>Đơn Giá (1000đ)</td>
+            <td>Thành Tiền(1000đ)</td>
+
+        </tr>
+        <tr>
+            <td>KM đầu tiên</td>
+            <td id="a1"></td>
+            <td id="m1"></td>
+            <td id="tt1"></td>
+        </tr>
+        <tr>
+            <td>Từ <span id="d1"></span> Đến <span id="d2"></span></td>
+            <td id="b1"></td>
+            <td id="n1"></td>
+            <td id="tt2"></td>
+            
+        </tr>
+        <tr>
+            <td>Từ <span id="d3"></span> Đến <span id="d4"></span> </td>
+            <td id="c1"></td>
+            <td id="g1"></td>
+            <td id="tt3"></td>
+        </tr>
+        <tr>
+            <td>Thời Gian Chờ</td>
+            <td id="y1"></td>
+            <td id="s1"></td>
+            <td id="tt4"></td>
+        </tr>
+        <tr>
+            <th colspan="3">Tổng Tiền : </th>
+            <th id="kq1"></th>
+        </tr>
+    </table>
+
+    <script language="javascript">
+        document.getElementById("btn2").onclick = function(){
+            document.getElementById("hoadon").style.display = "table"
+            
+        };
+
+        document.getElementById("btn1").onclick = function () {
+            var checkbox = document.getElementsByName("gender");
+            var x = document.getElementById("txt_x").value;
+            var y = document.getElementById("txt_y").value; 
+            var tongcho = 0;       
+            var kq = 0;
+            var a = 1;
+            var b = 0;
+            var c = 0;
+            var m,n,g,s = 0;       
+            var d1,d2,d4 = 0;
+            var d3 = 0;
+            x = parseFloat(x);
+            y = parseFloat(y);
+
+            if (x > 19) {
+                d1 = 1;
+                d2 =19;
+                d3 = 19;
+                d4 =x;
+                b = 18;
+                c = x - 19;
+            } else {
+                if(x < 1){
+                    b = 0;
+                }
+                else{
+                    d1 = 1;
+                    d2 = x;
+                    b = x - 1;
+                }
+                
+            }
+
+
+            checkbox.forEach(radio => {
+                if (radio.checked) {
+                    console.log(radio.value)
+                    if (radio.value === "Car") {
+                        m = 8000;
+                        n = 7500;
+                        g = 7000;
+                        s = 2000;
+                        var tongxe = a * m + b * n + c * g;
+                        tongcho = (s / 3) * y;
+                        kq = tongxe + tongcho;
+                    }
+                    if (radio.value === "SUV") {
+                        m = 9000;
+                        n = 8500;
+                        g = 8000;
+                        s = 3000;
+                        var tongxe = a * m + b * n + c * g;
+                        tongcho = (s / 3) * y;
+                        
+                        kq = tongxe + tongcho;
+
+                    }
+                    if (radio.value === "Black") {
+                        m = 10000;
+                        n = 9500;
+                        g = 9000;
+                        s = 4000;
+                        var tongxe = a * m + b * n + c * g;
+                        tongcho = (s / 3) * y;
+                        kq = tongxe + tongcho;
+                    }
+                    
+                }
+
+                document.querySelector('#kq1').innerHTML = kq;
+                document.querySelector('#kq').innerHTML = kq;
+                document.querySelector('#a1').innerHTML = a;
+                document.querySelector('#b1').innerHTML = b;
+                document.querySelector('#c1').innerHTML = c;
+                document.querySelector('#y1').innerHTML = y;
+                document.querySelector('#m1').innerHTML = m;
+                document.querySelector('#n1').innerHTML = n;
+                document.querySelector('#g1').innerHTML = g;
+                document.querySelector('#s1').innerHTML = s;
+                document.querySelector('#tt1').innerHTML = a*m;
+                document.querySelector('#tt2').innerHTML = b*n;
+                document.querySelector('#tt3').innerHTML = c*g;
+                document.querySelector('#tt4').innerHTML = tongcho;
+                document.querySelector('#d1').innerHTML = d1;
+                document.querySelector('#d2').innerHTML = d2;
+                document.querySelector('#d3').innerHTML = d3;
+                document.querySelector('#d4').innerHTML = d4;
+                
+                
+                
+            });
+
+
+        };
+
+    </script>
+
 </body>
+
 </html>
